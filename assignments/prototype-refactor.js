@@ -7,15 +7,25 @@ Prototype Refactor
 2. Your goal is to refactor all of this code to use ES6 Classes. The console.log() statements should still return what is expected of them.
 
 */
-function GameObject(GOattributes) {
-    this.createdAt = GOattributes.createdAt;
-    this.name = GOattributes.name;
-    this.dimensions = GOattributes.dimensions;
-  };
-    GameObject.prototype.destroy = function () {
-      return `${this.name} was removed from the game.`
-    };
+// function GameObject(GOattributes) {
+    // this.createdAt = GOattributes.createdAt;
+    // this.name = GOattributes.name;
+    // this.dimensions = GOattributes.dimensions;
+//   };
+//     GameObject.prototype.destroy = function () {
+//       return `${this.name} was removed from the game.`
+//     };
   
+class GameObject {
+    constructor(GOattributes) {
+        this.createdAt = GOattributes.createdAt;
+        this.name = GOattributes.name;
+        this.dimensions = GOattributes.dimensions;
+    }
+    destroy() {
+         return `${this.name} was removed from the game.`
+            };
+}
   
   /*
     === CharacterStats ===
@@ -24,15 +34,24 @@ function GameObject(GOattributes) {
     * should inherit destroy() from GameObject's prototype
   */
   
-  function CharacterStats(CSattributes) {
-    GameObject.call(this, CSattributes);
-    this.healthPoints = CSattributes.healthPoints;
-  };
-    CharacterStats.prototype = Object.create(GameObject.prototype);
-    CharacterStats.prototype.takeDamage = function () {
+//   function CharacterStats(CSattributes) {
+//     GameObject.call(this, CSattributes);
+    // this.healthPoints = CSattributes.healthPoints;
+//   };
+//     CharacterStats.prototype = Object.create(GameObject.prototype);
+//     CharacterStats.prototype.takeDamage = function () {
+//       return `${this.name} took damage.`
+//     };
+    
+class CharacterStats extends GameObject {
+    constructor(CSattributes) {
+        super(CSattributes);
+        this.healthPoints = CSattributes.healthPoints;
+    }
+    takeDamage() {
       return `${this.name} took damage.`
     };
-    
+}
   
   /*
     === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -43,16 +62,29 @@ function GameObject(GOattributes) {
     * should inherit destroy() from GameObject through CharacterStats
     * should inherit takeDamage() from CharacterStats
   */
-  function Humanoid(Hattributes) {
-    CharacterStats.call(this, Hattributes);
-    this.team = Hattributes.team;
-    this.weapons = Hattributes.weapons;
-    this.language = Hattributes.language;
-  };
-    Humanoid.prototype = Object.create(CharacterStats.prototype);
-    Humanoid.prototype.greet = function () {
-      return `${this.name} offers a greeting in ${this.language}.`
-    };
+//   function Humanoid(Hattributes) {
+//     CharacterStats.call(this, Hattributes);
+    // this.team = Hattributes.team;
+    // this.weapons = Hattributes.weapons;
+    // this.language = Hattributes.language;
+//   };
+//     Humanoid.prototype = Object.create(CharacterStats.prototype);
+//     Humanoid.prototype.greet = function () {
+//       return `${this.name} offers a greeting in ${this.language}.`
+//     };
+
+class Humanoid extends CharacterStats {
+    constructor(Hattributes) {
+        super(Hattributes); 
+        this.team = Hattributes.team;
+        this.weapons = Hattributes.weapons;
+        this.language = Hattributes.language;
+    }
+        greet() {
+          return `${this.name} offers a greeting in ${this.language}.`
+                 };
+    
+};
   
   /*
     * Inheritance chain: GameObject -> CharacterStats -> Humanoid
